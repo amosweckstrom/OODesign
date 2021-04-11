@@ -34,29 +34,31 @@ public class AlbumTests {
     public void testAddSoundClip(){
         setup();
 
-        assertEquals(fingerBib, jamesAlbum.getSoundClip());
-        assertEquals(four, jamesAlbum.getSoundClip());
+        assertEquals(fingerBib, jamesAlbum.getSoundClip(0));
+        assertEquals(four, jamesAlbum.getSoundClip(1));
     }
 
     @Test
     public void testRemoveSubAlbum(){
         setup();
 
-        aphexTwin.removeSubAlbum();
+        assertEquals(jamesAlbum, aphexTwin.removeSubAlbum());
         assertNotEquals(jamesAlbum, aphexTwin.getSubAlbum());
-        music.removeSubAlbum();
+        assertEquals(aphexTwin, music.removeSubAlbum());
         assertNotEquals(aphexTwin, music.getSubAlbum());
-        music.removeSubAlbum();
+        assertEquals(nickelBack, music.removeSubAlbum());
         assertNotEquals(nickelBack, music.getSubAlbum());
-        rootAlbum.removeSubAlbum();
+        assertEquals(music, rootAlbum.removeSubAlbum());
         assertNotEquals(music, rootAlbum.getSubAlbum());
     }
 
     @Test
     public void testRemoveSoundClip(){
-        jamesAlbum.removeSoundClip();
+        setup();
+
+        assertEquals(four, jamesAlbum.removeSoundClip());
         assertNotEquals(four, jamesAlbum.getSoundClip());
-        jamesAlbum.removeSoundClip();
+        assertEquals(fingerBib, jamesAlbum.removeSoundClip());
         assertNotEquals(fingerBib, jamesAlbum.getSoundClip());
     }
 
@@ -67,5 +69,14 @@ public class AlbumTests {
         }
         rootAlbum.addSubAlbum(music);
         assertNotEquals(music, rootAlbum.getSubAlbum());
+    }
+
+    @Test
+    public void testGetNumSubalbums(){
+        setup();
+
+        assertEquals(1, rootAlbum.getNumSubAlbums());
+        assertEquals(2, music.getNumSubAlbums());
+        assertEquals(1, aphexTwin.getNumSubAlbums());
     }
 }

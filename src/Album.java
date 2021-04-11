@@ -14,9 +14,13 @@ public class Album {
     private List<Album> SubAlbum = new ArrayList<Album>(); // Arraylist för att representera SubAlbum
     private List<SoundClip> LjudFiler = new ArrayList<SoundClip>(); // Arraylist för att representera LjudFiler
 
-    // Simpel construktor
+    // Simpel construktor, om namnet är tomt får albumet ett default namn
     public Album(String name){
-        this.name = name;
+        if(name != "") {
+            this.name = name;
+        } else{
+            this.name = "New Album";
+        }
     }
 
     // Simpel construktor med default namn
@@ -25,7 +29,9 @@ public class Album {
     }
     
     // Getters
+    // Returnerar albumets namn som en string
     public String toString(){
+        assert invariant();
         return name;
     }
 
@@ -34,6 +40,7 @@ public class Album {
         if(LjudFiler.size() == 0){
             return null;
         }
+        assert invariant();
         return LjudFiler.get(index);
     }
 
@@ -42,6 +49,7 @@ public class Album {
         if(LjudFiler.size() == 0){
             return null;
         }
+        assert invariant();
         return LjudFiler.get(LjudFiler.size() - 1);
     }
 
@@ -50,6 +58,7 @@ public class Album {
         if(SubAlbum.size() == 0){
             return null;
         }
+        assert invariant();
         return SubAlbum.get(index);
     }
 
@@ -58,13 +67,21 @@ public class Album {
         if(SubAlbum.size() == 0){
             return null;
         }
+        assert invariant();
         return SubAlbum.get(SubAlbum.size()-1);
+    }
+
+    // Returnerar mängden subalbum
+    public int getNumSubAlbums(){
+        assert invariant();
+        return numSubAlbums;
     }
 
     // Setters
     // Lägger till en ljudfil, ingen gräns på mängden ljudfiler i album
     public void addSoundClip(SoundClip song){
         LjudFiler.add(song);
+        assert invariant();
     }
 
     // Lägger till ett subalbum om det finns rum
@@ -73,6 +90,7 @@ public class Album {
             SubAlbum.add(subalbum);
             numSubAlbums++;
         }
+        assert invariant();
     }
 
     // Tar bort subalbumet vid indexet och returnerar det
@@ -80,7 +98,9 @@ public class Album {
         if(SubAlbum.size() == 0){
             return null;
         }
-        return SubAlbum.remove(index);
+        Album toReturn = SubAlbum.remove(index);
+        assert invariant();
+        return toReturn;
     }
 
     // Tar bort det sista subalbumet och returnerar det
@@ -88,7 +108,9 @@ public class Album {
         if(SubAlbum.size() == 0){
             return null;
         }
-        return SubAlbum.remove(SubAlbum.size() - 1);
+        Album toReturn = SubAlbum.remove(SubAlbum.size() - 1);
+        assert invariant();
+        return toReturn;
     }
 
     // Tar bort ljudfilen vid indexet och returnerar den
@@ -96,7 +118,9 @@ public class Album {
         if(LjudFiler.size() == 0){
             return null;
         }
-        return LjudFiler.remove(index);
+        SoundClip toReturn =LjudFiler.remove(index);
+        assert invariant();
+        return toReturn;
     }
 
     // Tar bort den sista ljudfilen och returnerar den
@@ -104,7 +128,14 @@ public class Album {
         if(LjudFiler.size() == 0){
             return null;
         }
-        return LjudFiler.remove(LjudFiler.size() - 1);
+        SoundClip toReturn = LjudFiler.remove(LjudFiler.size() - 1);
+        assert invariant();
+        return toReturn;
+    }
+
+    // Metod för att kolla klassinvarianten
+    public boolean invariant(){
+        return name != "" && SubAlbum.size() >= 0 && LjudFiler.size() >= 0 && SubAlbum.size() <= 500;
     }
 
     
